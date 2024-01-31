@@ -2,43 +2,90 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import App from './App'
+import i18n from '../i18n/index.json'
+
+function getEntriesByKeyPrefix(obj, keyPrefix) {
+  return Object.entries(obj).filter(([key, _]) => key.startsWith(`${keyPrefix}_`));
+}
 
 describe('Module 4 Project Tests', () => {
   describe('English Language', () => {
-    /*
-      👉 TASK 1
-
-      One test is done for you as an example.
-    */
     test(`TEXT_HEADING_CREATE_ACCOUNT is visible`, () => {
-      render(<App lang="en" />)
-      expect(screen.getByText("Create an Account")).toBeVisible()
-    })
-  })
-  describe('Spanish Language', () => {
-    /*
-      👉 TASK 3
+      render(<App lang="en" />);
+      expect(screen.getByText(i18n.en.TEXT_HEADING_CREATE_ACCOUNT)).toBeVisible();
+    });
 
-      This is done after making the UI multilingual.
-    */
+    test(`PLACEHOLDER_USERNAME is visible`, () => {
+      render(<App lang="en" />);
+      expect(screen.getByPlaceholderText(i18n.en.PLACEHOLDER_USERNAME)).toBeVisible();
+    });
+
+    test(`TEXT_FAV_LANG is visible`, () => {
+      render(<App lang="en" />);
+      expect(screen.getByText(i18n.en.TEXT_FAV_LANG)).toBeVisible();
+    });
+
+    test(`LABEL_FAV_FOOD is visible`, () => {
+      render(<App lang="en" />);
+      expect(screen.getByText(i18n.en.LABEL_FAV_FOOD)).toBeVisible();
+    });
+
+    test(`LABEL_ACCEPT_TERMS is visible`, () => {
+      render(<App lang="en" />);
+      expect(screen.getByText(i18n.en.LABEL_ACCEPT_TERMS)).toBeVisible();
+    });
+  });
+
+  describe('Spanish Language', () => {
+    test(`TEXT_HEADING_CREATE_ACCOUNT is visible in Spanish`, () => {
+      render(<App lang="esp" />)
+      expect(screen.getByText(i18n.esp.TEXT_HEADING_CREATE_ACCOUNT)).toBeVisible()
+    });
+
+    test(`PLACEHOLDER_USERNAME is visible in Spanish`, () => {
+      render(<App lang="esp" />);
+      expect(screen.getByPlaceholderText(i18n.esp.PLACEHOLDER_USERNAME)).toBeVisible();
+    });
+
+    test(`TEXT_FAV_LANG is visible in Spanish`, () => {
+      render(<App lang="esp" />);
+      expect(screen.getByText(i18n.esp.TEXT_FAV_LANG)).toBeVisible();
+    });
+
+    test(`LABEL_FAV_FOOD is visible in Spanish`, () => {
+      render(<App lang="esp" />);
+      expect(screen.getByText(i18n.esp.LABEL_FAV_FOOD)).toBeVisible();
+    });
+
+    test(`LABEL_ACCEPT_TERMS is visible in Spanish`, () => {
+      render(<App lang="esp" />);
+      expect(screen.getByText(i18n.esp.LABEL_ACCEPT_TERMS)).toBeVisible();
+    });
+
   })
   describe('getEntriesByKeyPrefix', () => {
-    test('can extract the correct data', () => {
-    /*
-      👉 TASK 4 part 2
+    const testObj = {
+      abc_1: "data_abc_1",
+      abc_2: "data_abc_2",
+      xyz_1: "data_xyz_1",
+      abc_3: "data_abc_3",
+    };
 
-      Implement the function `getEntriesByKeyPrefix` below
-      and then come back here and write a few tests
-      to ensure it works as expected.
+    test('can extract the correct data with prefix "abc"', () => {
+      const result = getEntriesByKeyPrefix(testObj, "abc");
+      expect(result).toEqual([["abc_1", "data_abc_1"], ["abc_2", "data_abc_2"], ["abc_3", "data_abc_3"]]);
+    });
 
-      Although it should be noted that commonly,
-      the tests are written _before_ implementing
-      the function being tested.
-    */
-    })
-  })
-})
-function getEntriesByKeyPrefix(obj, keyPrefix) {
+    test('can extract the correct data with prefix "xyz"', () => {
+      const result2 = getEntriesByKeyPrefix(testObj, "xyz");
+      expect(result2).toEqual([["xyz_1", "data_xyz_1"]]);
+    });
+
+    test('returns empty array for non-existent prefix "foo"', () => {
+      const result3 = getEntriesByKeyPrefix(testObj, "foo");
+      expect(result3).toEqual([]);
+    });
+  });
   /*
     👉 TASK 4 part 1
 
@@ -74,4 +121,4 @@ function getEntriesByKeyPrefix(obj, keyPrefix) {
     The properties that match the `keyPrefix` are returned inside an array holding key-value-pair sub-arrays.
 
   */
-}
+});
